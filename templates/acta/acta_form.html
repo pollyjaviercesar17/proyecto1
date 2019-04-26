@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lista de alumnos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+</head>
+</html>
+
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+
+</div>
+
+<section class="vh container-confirm">
+  <h1 class="confirm-title">¿Deseas suspender o aprobar beca?</h1>
+  <div class="row">
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+     {% for i in form %}
+      <p class="center">
+        {{ i }}
+        {{ i.label_tag }}
+        {{ i.errors }}
+      </p>
+      {% endfor %}
+      <button class="violeta waves-effect waves-light btn-large" type="submit" name="submit">
+        <i class="material-icons left">done</i>
+        Confirmar
+      </button>
+      <button class="violeta waves-effect waves-light btn-large" type="button" onclick="window.history.back()">
+        <i class="material-icons left">cancel</i>
+        Cancelar
+      </button>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+</head>
+</html>
+
+{% extends "base.html" %}
+{% block content %}
+
+{% load staticfiles %}
+
+
+
+<section class="container">
+  <h1 class="center">Iniciar Sesión</h1>
+  <div class="row">
+    <div class="center">
+      <img src="{% static '/public/images/uptp.png' %}" alt="Uptp" width="100" height="100" />
+    </div>
+
+
+
+
+    <form method="post" class="col s12 m6 push-m3">
+      {% csrf_token %}
+      <div class="col s12 m12 l12">
+        <label>Usuario</label>
+        {{ form.username }}
+      </div>
+      <div class="col s12 m12 l12">
+        <label>Contraseña</label>
+        {{ form.password }}
+      </div>
+      <div class="col s12 m12 l12">
+        <button type="submit" class="violeta btn btn-default">Iniciar Sesión</button>
+        <a href="/" class="violeta btn btn-default">Regresar</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+
+{% endblock %}

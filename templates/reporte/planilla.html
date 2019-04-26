@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Reporte de becas</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+</head>
+</html>
+
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<header class="header">
+  <div class="wrapper">
+    <div class="header-content">
+      <a href="/alumno">
+        <figure class="header-avatar">
+          <img src="{% static '/public/images/uptp.png' %}" alt="Uptp" width="90" height="80" />
+        </figure>
+      </a>
+
+      <a id="print" class="btn-floating btn-large waves-effect waves-light grey">
+        <i class="material-icons">print</i>
+      </a>
+
+    </div>
+  </div>
+</header>
+
+  <section class="wrapper Page">
+
+    <div class="cintillo">
+      <img src="{% static '/public/images/cintillo.png' %}" alt="Uptp" width="100" height="20" />
+    </div>
+
+    <div class="Page-contentTitle">
+      <h5 class="Page-title">Solicitud de beca</h3>
+    </div>
+    <div class="Page-contentTitle">
+      <h5 class="Page-title">Renovación de beca</h3>
+    </div>
+
+    <div class="textContent">
+      <br>
+      <p>
+        Guanare; {{ dia }} de {{ mes|lower }} del {{ ano }}
+      </p>
+
+      <p>
+        Yo, <strong>{{ alumno.get_full_name }}</strong> Cedula N° <strong>{{ alumno.tip_ced_alu }} - {{ alumno.ced_alu }} </strong>
+        Estudiante regular de esta institución inscrito en la
+      </p>
+
+      <p>
+        Especialidad <strong>{{ alumno.carrera }}</strong> cursante del trayecto {{ alumno.trayecto }}
+        Semestre {{ alumno.semestre }} solicito ante este departamento de Bienestar Estudiantil, asistencia en el Programa de Beca <strong>{{ alumnoo.tipo_beca }}</strong>
+      </p>
+
+      <p>
+        Dirección: {{ alumno.direccion }}
+      </p>
+      <p>
+        Punto de Referencia: {{ alumno.punto_ref }}
+      </p>
+      <p>
+        Telefono Celular {% if alumno.tlf_cel_alu %} {{ alumno.tlf_cel_alu }} {% else %} No Posee {% endif %},
+        Telefono de Casa {% if alumno.tlf_fijo_alu %} {{ alumno.tlf_fijo_alu }} {% else %} No Posee {% endif %}
+      </p>
+      <p>
+        Correo Electronico {{ alumno.email_alu }}
+      </p>
+
+      <p class="mensaje">
+        De Acuerdo con el Analisis y estudios de la solicitud presentada por el (la) bachiller antes mencionado el comite de becas decide.
+      </p>
+
+      <p class="mensaje">
+        Proceso {{ ano }}-
+      </p>
+
+      <br>
+
+      <p class="estatus">
+        <label>Estado de la Beca: <strong>{% if statu.status %}  Aprobada {% else %} Suspendida {% endif %} </strong></label>
+      </p>
+
+      <br>
+      <br>
+
+      <p class="responsable">
+        <strong class="bold">_____________________________</strong> <br>
+        LCDO. MANUEL FRÍAS <br>
+        Responsable de Bienestar Estudiantil <br>
+      </p>
+
+    </div>
+
+  </section>
+
+  <script src="{% static 'public/js/print.js' %}"></script>
+
+{% endblock %}

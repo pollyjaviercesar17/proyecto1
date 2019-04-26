@@ -1,0 +1,25 @@
+<form method="post">
+  {% csrf_token %}
+    
+
+     {% for i in form %}
+      <div>
+        {{ i.label_tag }}
+        {{ i }}
+        {{ i.errors }}
+      </div>
+      <br>
+      {% endfor %}
+      <ul>
+		<li>Su contraseña no puede asemejarse tanto a su otra información personal.</li>
+		<li>Su contraseña debe contener por lo menos 8 caracteres.</li>
+		<li>La contraseña no puede ser una contraseña de uso común.</li>
+		<li>Su contraseña no puede ser completamente numérica.</li>
+	  </ul>
+
+      <div>
+
+  <button type="submit">Cambiar Contraseña</button>
+  <a href="{% url 'alumnoss:list' %}">Volver</a>
+</form>
+

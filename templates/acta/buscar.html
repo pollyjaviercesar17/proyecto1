@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lista de alumnos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+</head>
+</html>
+
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+
+<section class="container center">
+    <form class="flex-row form-search" role="search" method="get">
+      <input type="number" name="cedula" placeholder="Buscar por cedula" value="{{ request.GET.cedula }}" />
+      <button class="btn-floating btn-large" type="submit">
+        <i class="material-icons left">done</i>
+      </button>
+    </form>
+
+    {% if upda  %}
+      {% for object in upda %}
+        <figure class="search-avatar">
+          <img src="../../media/{{ object.img }}" alt="" width="200" height="200" />
+        </figure>
+        <div >
+          <h3>{{ object.get_full_name|upper }}</h3>
+          <table >
+            <thead>
+              <tr>
+                <th>Cédula</th>
+                <th>Nombre y Apellido</th>
+                <th>Carrera</th>
+                <th>Trayecto</th>
+                <th>Semestre</th>
+                <th>Turno</th>
+                <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ object.tip_ced_alu|title }} - {{ object.ced_alu }}</td>
+                <td>{{ object.get_full_name }}</td>
+                <td>{{ object.carrera }}</td>
+                <td>{{ object.trayecto }} </td>
+                <td>{{ object.semestre }}</td>
+                <td>{{ object.turno }}</td>
+                <td>
+                  <a href="{% url 'alumnoss:update' object.pk %}">Actualizar</a></td>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      {% endfor %}
+
+    {%else%}
+      <p>
+        No hay resultados
+      </p>
+    {%endif%}
+
+</section>
+
+{% endblock %}

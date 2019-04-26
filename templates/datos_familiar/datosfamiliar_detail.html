@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lista de alumnos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+</head>
+</html>
+
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<section class="center">
+  <header class="header">
+    <div class="wrapper">
+      <div class="header-content">
+        <a href="/alumno">
+          <figure class="header-avatar">
+            <img src="{% static '/public/images/uptp.png' %}" alt="Uptp" width="90" height="80" />
+          </figure>
+        </a>
+
+        <form role="search" method="get">
+          <input class="header-query" type="query" name="alumno" placeholder="Cédula" value="{{ request.GET.alumno }}">
+          <p class="mensaje-error">{{ mensaje }}</p>
+        </form>
+
+       <div class="chip header-user">
+         <img src="{% static '/public/images/administrator.png' %}" />
+         <a href="{% url 'alumnoss:detail' request.user.pk %}">
+           {{ request.user }}
+        </a>
+      </div>
+
+        <div class="menu-mobile">
+          <a id="mobile" href="#">
+            <i class="material-icons">menu</i>
+          </a>
+        </div>
+
+        <nav id="navegation" class="navigation">
+          <a href="/alumno">
+            <figure class="header-avatar">
+              <img src="{% static '/public/images/uptp.png' %}" alt="Uptp" width="90" height="80" />
+            </figure>
+          </a>
+          <ul class="header-list">
+            <li>
+              <a href="/alumno">Listado</a>
+            </li>
+            <li>
+              <a href="#">Contacto</a>
+            </li>
+
+            <li>
+              <a href="/logout">Cerrar Seccion</a>
+            </li>
+
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+  </header>
+
+  {% if familiar %}
+  {% for familia in familiar %}
+  <div class="container">
+    <article>
+      <header >
+        <h4>Parentesco: {{ familia.relationship|title }}</h4>
+        {% if not request.user.is_superuser %}
+        <div class="family-options">
+          <a href="{% url 'alumnoss:delete_datosfamiliar' familia.pk %}">
+            <i class="material-icons" title="eliminar">delete_forever</i>
+            Eliminar
+          </a>
+        </div>
+        {% endif %}
+      </header>
+      <div>
+        <table>
+          <thead >
+            <tr>
+              <th>Cedula</th>
+              <th>Nombre Y Apellido</th>
+              <th>Edad</th>
+              <th>Nivel de Instruccion</th>
+              <th>Ocupacion</th>
+              <th>Ingreso Mensual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ familia.ced_f }} </td>
+              <td>{{ familia.get_full_name|title }}</td>
+              <td>{{ familia.edad|title }}</td>
+              <td>{{ familia.nivel_intr }}</td>
+              <td>{{ familia.ocupacion }}</td>
+              <td>{{ familia.ingreso_mensual }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  {% endfor %}
+  <br><br>
+    {% if not request.user.is_superuser %}
+    <a href="{% url 'alumnoss:register_datosfamiliar' object.pk %}">¿Deseas Añadir otro familiar?</a>
+    {% endif %}
+
+  {% else %}
+
+  <div class="vh container-confirm">
+    <div>
+      <h1 class="confirm-title">No posee carga familiar</h1>
+      <a href="{% url 'alumnoss:register_datosfamiliar' object.pk %}">¿Deseas añadir grupo familiar?</a>
+
+    </div>
+  </div>
+
+  {% endif %}
+  <button class="violeta btn-floating btn-large" type="button" onclick="window.history.back()">
+    <i class="material-icons">arrow_back</i>
+  </button>
+
+</section>
+
+{% endblock content %}

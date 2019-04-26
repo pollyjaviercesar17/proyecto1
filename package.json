@@ -1,0 +1,20 @@
+{
+  "name": "censo-beca",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "styles-w": "stylus -u nib -c -w -o static/public/css static/stylus/main.styl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/JySa65/censo-beca.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/JySa65/censo-beca/issues"
+  },
+  "homepage": "https://gitlab.com/JySa65/censo-beca#README"
+}

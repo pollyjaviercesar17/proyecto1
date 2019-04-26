@@ -1,0 +1,83 @@
+.FormContainer
+  margin 0 auto
+  padding 1em
+  max-width 1024px
+
+  &-Title
+    text-align center
+    margin 0 0 20px
+
+  .FormGroup
+    margin-bottom 20px
+    > label
+        display block
+        font-weight bolder
+        margin-bottom 10px
+    > input[type="text"],
+      input[type="number"],
+      input[type="date"],
+      input[type="time"],
+      input[type="email"],
+        border 1px solid #AAAAAA
+      select
+        border 1px solid #AAAAAA
+        width 100%
+      input[type="checkbox"]
+        position initial
+        opacity 1
+
+    > button
+        outline none
+        &:last-child
+          margin-right 5px
+    #id_direccion
+    #id_punto_ref
+    #id_procedencia
+      height 50px
+
+.FormContainer
+   > form
+      text-align center
+      box-sizing border-box
+      .FormGroup
+        display inline-block
+        width 300px
+
+textarea
+  height 70px
+  resize none
+input,
+select,
+textarea
+  padding 1em
+  outline none
+  box-sizing border-box
+  &.error
+    border-color rojo
+  &:optional
+    border-color rgba(#ccc, .5)
+    &:focus
+      &:valid
+        border-color verde
+    &:valid
+      border-color rgba(#ccc, .5)
+  &:valid
+    border-color verde
+  &:focus
+    &:invalid
+      border-color rojo
+
+   &.not-height
+     height auto
+   ul > li
+    color rojo
+    padding .2em
+    font-size 12px
+
+
+    /* Form Search */
+
+.form-search
+  margin-top 20px
+  > input
+      border 1px solid blue

@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lista de alumnos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+</head>
+</html>
+
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+
+{% block content %}
+
+<script>
+ notificacion({{ aja }});
+</script>
+
+<header class="header">
+  <div class="wrapper">
+    <div class="header-content">
+      <a href="/alumno">
+        <figure class="header-avatar">
+          <img src="{% static '/public/images/uptp.png' %}" alt="Uptp" width="90" height="80" />
+        </figure>
+      </a>
+      <form role="search" method="get">
+        <input class="header-query" type="query" name="alumno" placeholder="Cédula" value="{{ request.GET.alumno }}">
+      </form>
+
+      <ul class="header-list">
+        <li>
+          <a href="/alumno">Alumnos</a>
+        </li>
+        <li>
+          <a href="#">Contacto</a>
+        </li>
+        <li>
+          <a href="/logout">Cerrar Seccion</a>
+        </li>
+      </ul>
+
+     <div class="chip header-user">
+        <img src="{% static '/public/images/administrator.png' %}" alt="" />
+        {{ request.user }}
+      </div>
+      <span>
+        <i class="material-icons" title="detalles">details</i>
+      </span>
+    </div>
+  </div>
+</header>
+
+<section class="container">
+  <h3 class="center">Alumnos censados</h3>
+
+  <ul id="dropdown2" class="dropdown-content">
+    <li><a href="#"  onclick="reprobado('listTrue/')">Aprobados</a></li>
+    <li><a href="#" onclick="reprobado('listFalse/')">Supendidos</a></li>
+    <li><a href="/alumno">Todos</a></li>
+  </ul>
+  <a class="btn dropdown-button" href="#!" data-activates="dropdown2">
+    Opciones
+    <i class="mdi-navigation-arrow-drop-down right"></i>
+  </a>
+
+  <ul class="collection" id="reprobado">
+    {% for object in object_list %}
+
+    <li class="collection-item avatar">
+      <img src="../../media/{{ object.img }}" alt="" class="circle"/>
+      <span class="title">
+        <a href="{% url 'alumnoss:detail' object.pk %}">
+          {{ object.nom_alu|title }} {{ object.apell_alu|title }}
+        </a>
+      </span>
+      <p>
+        {{ object.tip_ced_alu|title }} - {{ object.ced_alu }}
+      </p>
+      <div class="content-action">
+        <a href="{% url 'alumnoss:detail' object.pk %}">
+          <i class="material-icons" title="detalles">details</i>
+        </a>
+        <a class="delete" href="{% url 'alumnoss:delete' object.pk %}">
+          <i class="material-icons" title="eliminar">delete_forever</i>
+        </a>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+<br>
+<div class="center hide" id="btnvolver">
+  <button  class="waves-effect waves-light btn" type="button" onclick="window.location.reload()">
+    Volver
+  </button>
+</div>
+
+  <ul class="pagination center">
+    {% if page_obj.has_previous %}
+      <li class="button">
+        <a href="?page={{ page_obj.previous_page_number }}">
+          <span><</span>
+        </a>
+      </li>
+    {% else %}
+      <li class="disabled button">
+        <a href="#">
+          <span><</span>
+        </a>
+      </li>
+    {% endif %}
+
+    {% for page in paginator.page_range %}
+      <li {% if page == page_obj.number %}class="active"{% endif %}>
+        <a href="?page={{ page }}">{{ page }}</a>
+      </li>
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="button">
+        <a href="?page={{ page_obj.next_page_number }}">
+          <span>></span>
+        </a>
+      </li>
+    {% else %}
+      <li {% if not page_obj.has_next %}class="disabled button"{% endif %}>
+        <a href="#">
+          <span>></span>
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+
+</section>
+
+
+
+
+
+
+{% endblock %}

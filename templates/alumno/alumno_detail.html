@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Detalles alumnos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+</head>
+</html>
+
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<header class="header">
+  <div class="wrapper">
+    <div class="header-content">
+      <figure class="header-avatar">
+        <img src="{% static '/public/images/uptp.png' %}" alt="Uptp" width="90" height="80" />
+      </figure>
+      <form role="search" method="get">
+        <input class="header-query" type="query" name="alumno" placeholder="Cédula" value="{{ request.GET.alumno }}">
+      </form>
+
+      <ul class="header-list">
+        <li>
+          <a href="/alumno">Alumnos</a>
+        </li>
+        <li>
+          <a href="#">Contacto</a>
+        </li>
+        <li>
+          <a href="/logout">Cerrar Seccion</a>
+        </li>
+      </ul>
+
+     <div class="chip header-user">
+        <img src="{% static '/public/images/administrator.png' %}" alt="" />
+        {% if is_superuser %}
+          {{ request.user }}
+        {% else %}
+          {{ object.get_full_name }}
+        {% endif %}
+      </div>
+      <span>
+        <i class="material-icons" title="detalles">details</i>
+      </span>
+    </div>
+  </div>
+</header>
+
+<section class="flex-row container-detail">
+  <div class="detail-info">
+    <figure class="alumno-avatar">
+      <img src="../../media/{{ object.img }}" alt="" width="200" height="200" />
+    </figure>
+    <h4 class="alumno-name">{{ object.get_full_name }}</h4>
+    <span class="alumno-ci">{{ object.tip_ced_alu }} - {{ object.ced_alu }}</span>
+
+    <div class="alumno-contact">
+      <h2 class="title-contact">Contacto</h2>
+      <div>
+        <span class="item-span">{{ object.tlf_cel_alu|title }}</span>
+        <span class="item-span">{{ object.email_alu }}</span>
+      </div>
+    </div>
+
+    <div class="alumno-vivienda">
+      <p>Tipo de beca: {{ object.tipo_beca }}</p>
+
+      {% if not request.user.is_superuser %}
+      {% if not vivienda %}
+        <a href="{% url 'alumnoss:register_vivienda' object.pk %}"> Añadir Datos de Vivienda</a>
+      {% else %}
+        <a href="{% url 'alumnoss:update_vivienda' vivienda.pk %}"> Actualizar Datos de Vivienda</a>
+      {% endif %}
+      {% endif %}
+    </div>
+
+    <!-- <div class="alumno-family">
+      {% if not request.user.is_superuser %}
+        <a href="{% url 'alumnoss:register_datosfamiliar' object.pk %}"> Añadir Datos Familiar</a>
+      {% endif %}
+    </div> -->
+
+    <div class="alumno-beca">
+      {% if request.user.is_superuser %}
+        <label>Estado de la Beca: <strong>{% if statu.status %}  Aprobada {% else %} Suspendida {% endif %} </strong></label>
+      {% if not statu %}
+        <a href="{% url 'acta:register' object.pk %}"> <br>Desea Aprobar la beca?</a>
+      {% else %}
+        <a href="{% url 'acta:renovar' statu.pk %}"> <br>Desea Suspender o renovar la beca?</a>
+      {% endif %}
+      {% endif %}
+    </div>
+
+    <div class="alumno-family">
+      <a href="{% url 'alumnoss:detail_datosfamiliar' object.pk %}">Ver Grupo Familiar</a>
+    </div>
+
+  </div>
+
+  <div class="detail-data">
+    <h3 class="title-data">Datos personales</h3>
+    <div class="center">
+      <table class="centered">
+        <thead>
+          <tr>
+            <th>Carrera</th>
+            <th>Trayecto</th>
+            <th>Semestre</th>
+            <th>Turno</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>{{ object.carrera }}</td>
+            <td>{{ object.trayecto }}  </td>
+            <td>{{ object.semestre }}  </td>
+            <td>{{ object.turno }} </td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="centered">
+        <thead>
+          <tr>
+            <th>Procedencia</th>
+            <th>Vive Residenciado</th>
+            <th>Direccion</th>
+            <th>Punto de Referencia</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>{{ object.procedencia }}  </td>
+            <td>{% if object.vive_resid %} Si {% else %} No {% endif %}  </td>
+            <td>{{ object.direccion }}  </td>
+            <td>{{ object.punto_ref }}  </td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="centered">
+        <thead>
+          <tr>
+            <th>Viaja Diariamente Para Asistir A Clases</th>
+            <th>Cuanto Tiempo Invierte En El Viaje</th>
+            <th>Gasto Diario En Viaje</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>{% if object.viaja_clase %} Si {% else %} No {% endif %}</td>
+            <td>{{ object.tiempo_viaje }}</td>
+            <td>{{ object.gasto_viaje }}</td>
+          </tr>
+        </tbody>
+      </table>
+      {% if vivienda %}
+        <div>
+
+          <h3 class="title-data">Datos Socioeconomicos</h3>
+          <table class="centered">
+          <thead>
+            <tr>
+              <th>Tipo de Vivienda</th>
+              <th>Tenencia de Vivienda</th>
+            </tr>
+          </thead>
+          <tbody>
+              <td>{{ vivienda.tipo_vivienda|title }}  </td>
+              <td>{{ vivienda.tenencia_vivienda|title }}  </td>
+          </tbody>
+        </table>
+        </div>
+        <div>
+          <h2 class="title-data">Distribucion Espacial </h2>
+          <table class="centered">
+            <thead>
+              <tr>
+                <th>N° De Dormitorio</th>
+                <th>Sala</th>
+                <th>Cocina</th>
+                <th>Comedor</th>
+                <th>Baño</th>
+                <th>Lavadero</th>
+                <th>Patio</th>
+                <th>Garaje</th>
+                <th>Jardin</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <td>{{ vivienda.num_dormitorio }}  </td>
+              <td> {% if vivienda.sala_di %} Si {% else %} No {% endif %}  </td>
+              <td> {% if vivienda.cocina_di %} Si {% else %} No {% endif %}  </td>
+              <td> {% if vivienda.comedor_di %} Si {% else %} No {% endif %}  </td>
+              <td> {% if vivienda.bano_di %} Si {% else %} No {% endif %}  </td>
+              <td> {% if vivienda.lavadero_di %} Si {% else %} No {% endif %}  </td>
+              <td> {% if vivienda.patio_di %} Si {% else %} No {% endif %}  </td>
+              <td> {% if vivienda.garaje_di %} Si {% else %} No {% endif %}  </td>
+              <td> {% if vivienda.jardin_di %} Si {% else %} No {% endif %}  </td>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3 class="title-data">Equipamiento de la Vivienda (Cantidad) </h3>
+          <table class="centered">
+            <thead>
+              <tr>
+                <th>Nevera</th>
+                <th>Cocina</th>
+                <th>Televisor</th>
+                <th>DVD</th>
+                <th>Ventiladores</th>
+                <th>Aire Acondicionado</th>
+                <th>Computadora</th>
+                <th>Lavadora</th>
+                <th>Recibo</th>
+                <th>Comedor</th>
+                <th>Camas</th>
+              </tr>
+            </thead>
+
+            <tbody>
+                <td>{% if vivienda.nevera_eq %} {{ vivienda.nevera_eq }} {% else %} No Posee {% endif %}  </td>
+                <td>{% if vivienda.cocina_eq %} {{ vivienda.cocina_eq }} {% else %} No Posee {% endif %}</td>
+                <td>{% if vivienda.tv_eq %} {{ vivienda.tv_eq }} {% else %} No Posee {% endif %} </td>
+                <td>{% if vivienda.dvd_eq %} {{ vivienda.dvd_eq }} {% else %} No Posee {% endif %} </td>
+                <td>{% if vivienda.ventiladores_eq %} {{ vivienda.ventiladores_eq }} {% else %} No Posee {% endif %} </td>
+                <td>{% if vivienda.a_a_eq %} {{ vivienda.a_a_eq }} {% else %} No Posee {% endif %} </td>
+                <td>{% if vivienda.computadora_eq %} {{ vivienda.computadora_eq }} {% else %} No Posee {% endif %} </td>
+                <td>{% if vivienda.lavadora_eq %} {{ vivienda.lavadora_eq }} {% else %} No Posee {% endif %} </td>
+                <td>{% if vivienda.recibo_eq %} {{ vivienda.recibo_eq }} {% else %} No Posee {% endif %} </td>
+                <td>{% if vivienda.comedor_eq %} {{ vivienda.comedor_eq }} {% else %} No Posee {% endif %} </td>
+                <td>{% if vivienda.camas_eq %} {{ vivienda.camas_eq }} {% else %} No Posee {% endif %} </td>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3 class="title-data">Servicios </h3>
+          <table class="centered">
+            <thead>
+              <tr>
+                <th>Agua</th>
+                <th>Red De Cloacas</th>
+                <th>Electricidad</th>
+                <th>Internet</th>
+                <th>Tv Cable</th>
+                <th>Teléfono</th>
+                <th>Transporte Público</th>
+                <th>Aseo Urbano</th>
+              </tr>
+            </thead>
+
+            <tbody>
+                <td> {% if vivienda.agua_se %} Si {% else %} No {% endif %}  </td>
+                <td> {% if vivienda.red_cloacas_se %} Si {% else %} No {% endif %}  </td>
+                <td> {% if vivienda.electricidad_se %} Si {% else %} No {% endif %}  </td>
+                <td> {% if vivienda.internet_se %} Si {% else %} No {% endif %}  </td>
+                <td> {% if vivienda.tv_cable_se %} Si {% else %} No {% endif %}  </td>
+                <td> {% if vivienda.telefono_se %} Si {% else %} No {% endif %}  </td>
+                <td> {% if vivienda.trans_publico_se %} Si {% else %} No {% endif %}  </td>
+                <td> {% if vivienda.aseo_urba_se %} Si {% else %} No {% endif %}  </td>
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- <br><br>
+{% if request.user.is_superuser %}
+<a href="{% url 'alumnoss:list' %}">Volver</a>
+{% else %}
+<a href="/">Salir</a>
+<a href="#">Imprimir Planilla</a>
+{% endif %} -->
+
+{% endblock %}

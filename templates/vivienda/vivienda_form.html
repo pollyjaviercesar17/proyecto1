@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Datos de la vivienda</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+</head>
+</html>
+
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<section class="container center">
+
+  <header class="header">
+    <div class="wrapper">
+      <div class="header-content">
+        <a href="/alumno">
+          <figure class="header-avatar">
+            <img src="{% static '/public/images/uptp.png' %}" alt="Uptp" width="90" height="80" />
+          </figure>
+        </a>
+
+        <form role="search" method="get">
+          <input class="header-query" type="query" name="alumno" placeholder="Cédula" value="{{ request.GET.alumno }}">
+          <p class="mensaje-error">{{ mensaje }}</p>
+        </form>
+
+       <div class="chip header-user">
+         <img src="{% static '/public/images/administrator.png' %}" />
+         {% if not request.user.is_superuser %}
+           <a href="{% url 'alumnoss:detail' request.user.pk %}">
+             {{ request.user }}
+          </a>
+          {% else %}
+            {{ request.user }}
+         {% endif %}
+      </div>
+
+        <div class="menu-mobile">
+          <a id="mobile" href="#">
+            <i class="material-icons">menu</i>
+          </a>
+        </div>
+
+        <nav id="navegation" class="navigation">
+          <a href="/alumno">
+            <figure class="header-avatar">
+              <img src="{% static '/public/images/uptp.png' %}" alt="Uptp" width="90" height="80" />
+            </figure>
+          </a>
+          <ul class="header-list">
+            <li>
+              <a href="/alumno">Listado</a>
+            </li>
+            <li>
+              <a href="#">Contacto</a>
+            </li>
+
+            <li>
+              <a href="/logout">Cerrar Seccion</a>
+            </li>
+
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+  </header>
+
+  <form action="" method="post">{% csrf_token %}
+   <div>
+     <div>
+       <h2>VIVIENDA</h2>
+     <div>
+     <table>
+       <thead>
+         <tr>
+           <th>TIPO DE VIVIENDA</th>
+           <th>TENENCIA DE LA VIVIENDA</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr>
+           <td>{{ form.tipo_vivienda }}</td>
+           <td>{{ form.tenencia_vivienda }}</td>
+         </tr>
+       </tbody>
+   </table>
+  <br><br>
+
+  <div>
+    <h4> DISTRIBUCION ESPACIAL </h4>
+  <div>
+  <table>
+    <thead>
+      <tr>
+        <th>NUMERO DE DORMITORIO</th>
+        <th>SALA</th>
+        <th>COCINA</th>
+        <th>COMEDO</th>
+        <th>BAÑO</th>
+        <th>LAVADERO</th>
+        <th>PATI</th>
+        <th>GARAJE</th>
+        <th>JARDIN</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ form.num_dormitorio }}</td>
+        <td>
+          <p class="center">
+            <input type="checkbox" name="status" id="sala">
+            <label for="sala">{{form.sala_di}}</label>
+          </p>
+        </td>
+        <th>
+          <p class="center">
+            <input type="checkbox" name="status" id="cocina">
+            <label for="cocina">{{ form.cocina_di }}</label>
+          </p>
+        </th>
+
+        <th>
+          <p class="center">
+            <input type="checkbox" name="status" id="comedor">
+            <label for="comedor">{{ form.comedor_di }}</label>
+          </p>
+        </th>
+
+        <th>
+          <p class="center">
+            <input type="checkbox" name="status" id="bano">
+            <label for="bano">{{ form.bano_di }}</label>
+          </p>
+        </th>
+        <th>
+          <p class="center">
+            <input type="checkbox" name="status" id="lavadero">
+            <label for="lavadero">{{ form.lavadero_di }}</label>
+          </p>
+        </th>
+
+        <th>
+          <p class="center">
+            <input type="checkbox" name="status" id="patio">
+            <label for="patio">{{ form.patio_di }}</label>
+          </p>
+        </th>
+
+        <th>
+          <p class="center">
+            <input type="checkbox" name="status" id="garaje">
+            <label for="garaje">{{ form.garaje_di }}</label>
+          </p>
+        </th>
+
+        <th>
+          <p class="center">
+            <input type="checkbox" name="status" id="jardin">
+            <label for="jardin">{{ form.jardin_di }}</label>
+          </p>
+        </th>
+
+      </tr>
+    </tbody>
+  </table>
+<br><br>
+
+  <div>
+    <h4> EQUIPAMIENTO DE LA VIVIENDA </h4>
+  <div>
+  <table>
+    <thead>
+      <tr>
+        <th>NEVERA</th>
+        <th>COCINA</th>
+        <th>TV</th>
+        <th>DVD</th>
+        <th>VENTILADOR</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>{{ form.nevera_eq }}</th>
+        <th>{{ form.cocina_eq }}</th>
+        <th>{{ form.tv_eq }}</th>
+        <th>{{ form.dvd_eq }}</th>
+        <th>{{ form.ventiladores_eq }}</th>
+      </tr>
+    </tbody>
+  </table>
+  <br><br>
+  <table>
+    <thead>
+      <tr>
+        <th>AIRE ACONDICIONADO</th>
+        <th>COMPUTADORA</th>
+        <th>LAVADORA</th>
+        <th>RECIBO</th>
+        <th>COMEDOR</th>
+        <th>CAMAS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>{{ form.a_a_eq }}</th>
+        <th>{{ form.computadora_eq }}</th>
+        <th>{{ form.lavadora_eq }}</th>
+        <th>{{ form.recibo_eq }}</th>
+        <th>{{ form.comedor_eq }}</th>
+        <th>{{ form.camas_eq }}</th>
+      </tr>
+    </tbody>
+  </table>
+
+<br><br>
+  <div>
+    <h4> SERVICIOS </h4>
+  <div>
+  <table>
+    <thead>
+      <tr>
+        <th>AGUA</th>
+        <th>RED DE CLOACAS</th>
+        <th>ELECTRICIDAD</th>
+        <th>INTERNET</th>
+        <th>TV POR CABLE</th>
+        <th>TELEFONO</th>
+        <th>TRANSPORTE PUBLICO</th>
+        <th>ASEO URBANICO</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      <th>
+        <p class="center">
+          <input type="checkbox" name="status" id="agua">
+          <label for="agua">{{ form.agua_se }}</label>
+        </p>
+      </th>
+      <th>
+        <p class="center">
+          <input type="checkbox" name="status" id="cloacas">
+          <label for="cloacas">{{ form.red_cloacas_se }}</label>
+        </p>
+      </th>
+
+      <th>
+        <p class="center">
+          <input type="checkbox" name="status" id="electricidad">
+          <label for="electricidad">{{ form.electricidad_se }}</label>
+        </p>
+      </th>
+
+      <th>
+        <p class="center">
+          <input type="checkbox" name="status" id="internet">
+          <label for="internet">{{ form.internet_se }}</label>
+        </p>
+      </th>
+
+      <th>
+        <p class="center">
+          <input type="checkbox" name="status" id="cable">
+          <label for="cable">{{ form.tv_cable_se }}</label>
+        </p>
+      </th>
+
+      <th>
+        <p class="center">
+          <input type="checkbox" name="status" id="telefono">
+          <label for="telefono">{{ form.telefono_se }}</label>
+        </p>
+      </th>
+
+      <th>
+        <p class="center">
+          <input type="checkbox" name="status" id="publico">
+          <label for="publico">{{ form.trans_publico_se }}</label>
+        </p>
+      </th>
+
+      <th>
+        <p class="center">
+          <input type="checkbox" name="status" id="aseo">
+          <label for="aseo">{{ form.aseo_urba_se }}}</label>
+        </p>
+      </th>
+      </tr>
+    </tbody>
+  </table>
+</section>
+  <div class="FormGroup center">
+    <button class="violeta btn-floating btn-large" type="submit" name="send">
+      <i class="material-icons">send</i>
+    </button>
+    <button class="violeta btn-floating btn-large" type="button" name="cancel" onclick="window.history.back()">
+      <i class="material-icons">cancel</i>
+    </button>
+  </div>
+  </form>
+{% endblock %}

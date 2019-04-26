@@ -1,0 +1,7 @@
+*.sqlite3
+
+
+
+node_modules
+*.log
+*.pyc

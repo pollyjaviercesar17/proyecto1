@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lista de alumnos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+</head>
+</html>
+
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+<header class="header">
+  <div class="wrapper">
+    <div class="header-content">
+      <a href="/alumno">
+        <figure class="header-avatar">
+          <img src="{% static '/public/images/uptp.png' %}" alt="Uptp" width="90" height="80" />
+        </figure>
+      </a>
+
+      <form role="search" method="get">
+        <input class="header-query" type="query" name="alumno" placeholder="Cédula" value="{{ request.GET.alumno }}">
+        <p>{{ mensaje }}</p>
+      </form>
+
+     <div class="chip header-user">
+        <img src="{% static '/public/images/administrator.png' %}" alt="" />
+        {{ request.user }}
+      </div>
+
+      <div class="menu-mobile">
+        <a id="mobile" href="#">
+          <i class="material-icons">menu</i>
+        </a>
+      </div>
+
+      <nav id="navegation" class="navigation">
+        <a href="/alumno">
+          <figure class="header-avatar">
+            <img src="{% static '/public/images/uptp.png' %}" alt="Uptp" width="90" height="80" />
+          </figure>
+        </a>
+        <ul class="header-list">
+          <li>
+            <a href="/alumno">Listado</a>
+          </li>
+          <li>
+            <a href="#">Contacto</a>
+          </li>
+
+          <li>
+            <a href="/logout">Cerrar Seccion</a>
+          </li>
+
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+</header>
+
+<section class="container">
+  <div class="FormContainer">
+    <h2 class="center FormContainer-title">Registro familiar</h2>
+    <form action="" method="post">{% csrf_token %}
+     {% for field in form %}
+        <div class="FormGroup">
+          {{ field.label_tag }}
+          {{ field }}
+        </div>
+      {% endfor %}
+      <div>
+        <button class="violeta btn-floating btn-large" type="submit" name="send">
+          <i class="material-icons">send</i>
+        </button>
+        <button class="violeta btn-floating btn-large" type="button" name="cancel" onclick="window.history.back()">
+          <i class="material-icons">cancel</i>
+        </button>
+      </div>
+    </form>
+
+  </div>
+</section>
+{% endblock %}

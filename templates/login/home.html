@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+</head>
+</html>
+
+{% extends "base.html" %}
+{% block content %}
+
+{% load staticfiles %}
+
+<div class="valign-wrapper homepage">
+  <div class="wrapper">
+    <div class="row">
+      <div class="col s6 m6 l6 left">
+        <h1 class="homepage-title">Bienestar estudiantil te da la bienvenida</h1>
+        <div class="center">
+          <img src="{% static '/public/images/uptp.png' %}" alt="Uptp" width="200" height="200" />
+        </div>
+      </div>
+      <div class="col s6 m6 l6 left">
+        <p class="homepage-ad card-panel">
+          ¿Estas interesado en ser becado? o ¿necesitas actualizar tus datos ?
+          Te invitamos a que indiques que opción deseas realizar. U.P.T.P Somos todos.
+          Si eres administrador puedes iniciar sesión en este enlace. <a href="/login">Iniciar Sesión</a>
+        </p>
+        <div align="center">
+          <a href="{% url 'alumnoss:register' %}" class="violeta waves-effect waves-light btn-large">
+            <i class="material-icons left">add_circle_outline</i>
+            Registrate
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lista de alumnos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+</head>
+</html>
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+<section class="container">
+
+  <div class="FormContainer">
+    <h2 class="FormContainer-Title">Beca</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="FormGroup">
+        {{ field.label_tag }}
+        {{ field}}
+        {{ field.errors }}
+      </div>
+      {% endfor %}
+
+      <div class="FormGroup">
+        <button class="violeta btn-floating btn-large" type="submit" name="send">
+          <i class="material-icons">send</i>
+        </button>
+        <button class="violeta btn-floating btn-large" type="button" name="cancel" onclick="window.history.back()">
+          <i class="material-icons">cancel</i>
+        </button>
+      </div>
+    </form>
+  </div>
+
+
+
+</section>
+{% endblock %}

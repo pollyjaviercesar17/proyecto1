@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Reporte de becas</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+</head>
+</html>
+
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<header class="header">
+  <div class="wrapper">
+    <div class="header-content">
+      <a href="/alumno">
+        <figure class="header-avatar">
+          <img src="{% static '/public/images/uptp.png' %}" alt="Uptp" width="90" height="80" />
+        </figure>
+      </a>
+
+      <a id="print" class="btn-floating btn-large waves-effect waves-light grey">
+        <i class="material-icons">print</i>
+      </a>
+
+    </div>
+  </div>
+</header>
+
+  <section class="wrapper  Page">
+
+    <div class="cintillo">
+      <img src="{% static '/public/images/cintillo.png' %}" alt="Uptp" width="100" height="20" />
+    </div>
+
+    <div class="Page-contentTitle">
+      <h5 class="Page-title">Listado de alumnos</h3>
+    </div>
+
+    <div class="textContent">
+			<div>
+				<table border="1" class="list-report">
+					<thead>
+						<tr>
+							<th><b>CEDULA</b></th>
+							<th><b>NOMBRE Y APELLIDO</b></th>
+							<th><b>PNF</b></th>
+							<th><b>TRAYECTO - SEMESTRE</b></th>
+							<th><b>TIPO DE BECA</b></th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for i in form %}
+						<tr>
+							<th>{{ i.tip_ced_alu }} - {{ i.ced_alu }} </th>
+							<th>{{ i.nom_alu }} {{ i.apell_alu }} </th>
+							<th>{{ i.carrera }}</th>
+							<th>{{ i.trayecto }} - {{ i.semestre }}</th>
+							<th>{{ i.tipo_beca }}</th>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+    </div>
+
+  </section>
+
+  <script src="{% static 'public/js/print.js' %}"></script>
+
+{% endblock %}
